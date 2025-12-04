@@ -4,7 +4,17 @@
 import { api } from "../api"
 import type { Product } from "../models/Product";
 
+// the form data retrieved from the component ,
+// from product, we select/pick some of the property
+// Pick - From Product, select the defined properties / subset of
+export type ProductInput = Pick<Product, 'title'|'price'|'image'|'description'> & {category?:string};
 // Create
+
+export const createProduct = async (data:ProductInput) : Promise<Product>=> {
+    const res = await api.post('/products', {...data, category:'misc'});
+    return res.data;
+
+}
 
 
 // GET all
