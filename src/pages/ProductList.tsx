@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Product } from '../models/Product';
+import type { Product } from '../models/Product';
 import { fetchProducts } from '../services/ProductService';
+import { Link } from 'react-router-dom';
 
 const ProductList = () => {
     const [items, setItems] = useState<Product[]>([]);
@@ -29,8 +30,28 @@ const ProductList = () => {
         loadData();
     },[]);
 
+    if (loading) return <p>Loading....</p>
+
   return (
-    <div>ProductList</div>
+    <div>
+        { error && <p style={{color:'crimson'}}>Error: {error}</p>}
+        <ul style={{display:'grid', gap:12, marginTop:12, padding:0,listStyle:'none'}}>
+            {
+                items.map((p)=> (
+                    <li key={p.id} style={{border:'1px solid #ddd', borderRadius:8, padding:12}}>
+                        <strong>{p.title} - $ {p.price}</strong>
+                        <div style={{marginTop:8, display:'flex', gap:8}}>
+                            <Link to={`/products/${p.id}`}>View</Link>
+                            <Link to={`/products/${p.id}/Edit`}>Edit</Link>
+                            <button>Delete</button>
+                        </div>
+                    </li>
+
+                ))
+            }
+        </ul>
+
+    </div>
   )
 }
 
