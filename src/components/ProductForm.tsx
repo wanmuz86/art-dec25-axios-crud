@@ -19,12 +19,30 @@ const ProductForm:React.FC<Props> = ({initial, onSubmit, submitLabel='Save'}) =>
     const [price, setPrice] = useState<number>(initial?.price ?? 0);
     const [image, setImage] = useState<string>(initial?.image ?? '');
     const [description, setDescription] = useState<string>(initial?.description ?? '');
-    
+
     //Loading... for the button
     const [busy, setBusy] = useState<boolean>(false);
+    const handleSubmit = (e:React.FormEvent) => {
+        // Override default browser behaviour
+        e.preventDefault();
+        if (!title.trim() || price <= 0){
+            alert("Title and price positive range is requried");
+            return;
+        }
+         setBusy(true)
+        try {
+            onSubmit({title,price,description,image}); // call the callback function while passing the data from the form
+        }
+        catch  {
+            console.log('error')
+        }
+        finally {
+            setBusy(false)
+        }
+    }
 
   return (
-    <form>
+    <form  onSubmit={handleSubmit} style={{display:'grid', gap:12}}>
         <div>
         <label htmlFor="title">Title</label>
         <input type="text" value={title} onChange={(e)=> setTitle(e.target.value)} required/>
