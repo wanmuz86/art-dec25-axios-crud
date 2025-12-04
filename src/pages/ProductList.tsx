@@ -38,6 +38,8 @@ const ProductList = () => {
         <ul style={{display:'grid', gap:12, marginTop:12, padding:0,listStyle:'none'}}>
             {
                 items.map((p)=> (
+                    // key is compulsary when creating a list
+                    // key needs to be unique, normally you will bind the id from API/ DB to the key
                     <li key={p.id} style={{border:'1px solid #ddd', borderRadius:8, padding:12}}>
                         <strong>{p.title} - $ {p.price}</strong>
                         <div style={{marginTop:8, display:'flex', gap:8}}>
